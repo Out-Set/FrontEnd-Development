@@ -5,8 +5,8 @@
     </div>
 
     <div class="selectdiv">
-      <div style="display: flex;">
-        <strong>Second:</strong>&nbsp;
+      <!-- <div style="display: flex;"> -->
+        <!-- <strong>Second:</strong>&nbsp;
         <select v-model="second" style="width:150px; margin-bottom: 20px; margin-right: 20px;">
           <option value="*" disabled selected>*</option>
           <option v-for="second in seconds" :key="second" :value="second">{{ second }}</option>
@@ -46,9 +46,9 @@
       <div>
         <button disabled ref="enable_btn" class="reschedule-bt" v-on:click="set()">Set Schedule
         </button>
-      </div>
+      </div> -->
 
-      <div style="padding-top: 30px;">
+      <div style="padding-top: 20px;">
         <strong>Write Your cron Expression</strong>&nbsp;
         <input type="text" v-model="expression">&nbsp;
         <button ref="cron-btn" class="reschedule-bt" v-on:click="setCronExp()">Set Schedule</button>&nbsp;&nbsp;
@@ -158,7 +158,9 @@ export default {
 
     setCronExp() {
       console.log(typeof this.expression, this.expression);
-      axios.post('http://localhost:8081/dynamicSchedule/cronVal', this.expression)
+
+      // axios.post('http://localhost:8081/dynamicSchedule/cronVal', this.expression)
+      axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cronVal', this.expression)
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
