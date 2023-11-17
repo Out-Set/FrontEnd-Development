@@ -98,6 +98,13 @@
       </div>
 
     </div>
+    <div>
+      <router-link to="/cronLogs">
+        <button ref="cronLogs" class="enable-disable-reschedule mb-2"
+          :class="{ active: this.$route.path === '/cronLogs' }" aria-current="page">Show Logs
+        </button>
+      </router-link>
+    </div>
 
   </div>
 </template>
@@ -381,6 +388,7 @@ export default {
 
 
 <style scoped>
+
 .master {
   margin-top: 0px;
   padding-top: 0px;
@@ -392,7 +400,7 @@ export default {
 }
 
 .heading {
-  height: 55px;
+  height: 40px;
   background: lightcoral;
   padding-top: 13px;
   padding-left: 16px;

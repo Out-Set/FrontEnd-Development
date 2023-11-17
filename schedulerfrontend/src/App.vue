@@ -1,14 +1,19 @@
 <template>
-  <ScheduleTask/>
+  <!-- <router-link to="/home">Home</router-link> -->
+  <router-view></router-view>
+  <!-- <ScheduleTask/>
+  <cronLogs/> -->
 </template>
 
 <script>
-import ScheduleTask from './components/ScheduleTask.vue'
+// import ScheduleTask from './components/ScheduleTask.vue';
+// import cronLogs from './components/cronLogs.vue';
 
 export default {
   name: 'App',
   components: {
-    ScheduleTask
+    // ScheduleTask,
+    // cronLogs
   }
 }
 </script>
