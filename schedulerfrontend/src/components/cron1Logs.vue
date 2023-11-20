@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h3 class="heading">Cron-Logs</h3>
+      <h3 class="heading">Cron-1 Logs</h3>
     </div>
 
     <div class="allDataDiv" style="">
@@ -36,7 +36,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 export default {
-  name: "cronLogs",
+  name: "cron1Logs",
   data() {
     return {
       log: 'Cron-Logs',
@@ -45,7 +45,7 @@ export default {
   },
 
   mounted() {
-    axios.get('http://localhost:8081/dynamicSchedule/getLogs')
+    axios.get('http://localhost:8081/getCron1Logs')
       .then((response) => {
         console.log("Response form Backend: ", response);
         this.logs = response.data

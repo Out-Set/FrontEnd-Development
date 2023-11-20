@@ -98,12 +98,9 @@
       </div>
 
     </div>
-    <div>
-      <router-link to="/cronLogs">
-        <button ref="cronLogs" class="enable-disable-reschedule mb-2"
-          :class="{ active: this.$route.path === '/cronLogs' }" aria-current="page">Show Logs
-        </button>
-      </router-link>
+
+    <div class="footerDiv mt-1">
+      <button @click="$router.back()" class="btn btn-secondary btn-sm mt-5">Go Back</button>
     </div>
 
   </div>
@@ -339,7 +336,6 @@ export default {
         this.cDay = '*'
         this.cronExpression = `${this.cSecond} ${this.cMinute} ${this.cHour} ${this.cDate} ${this.cMonth} ${this.cDay}`
       }
-
     },
 
     set() {
@@ -347,7 +343,12 @@ export default {
       this.selectedData = this.second + " " + this.minute + " " + this.hour + " " + this.date + " " + this.month + " " + this.day
       console.log(typeof this.selectedData, this.selectedData);
 
-      axios.post('http://localhost:8081/dynamicSchedule/cronVal', this.cronExpression)
+      const myValue = localStorage.getItem('cronName');
+      console.log('Cron Name: ',myValue);
+
+      if(myValue === 'cron-1'){
+        axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.cronExpression)
+        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -355,13 +356,27 @@ export default {
           // Handle the error
           console.log("Error Occured!", error);
         });
+      } else{
+        axios.post('http://localhost:8081/dynamicSchedule/cron2Val', this.cronExpression)
+        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron2Val', this.expression)
+        .then((response) => {
+          console.log("Response form Backend: ", response);
+        })
+        .catch((error) => {
+          // Handle the error
+          console.log("Error Occured!", error);
+        });
+      }
     },
 
     setCronExp() {
       console.log(typeof this.expression, this.expression);
+      const myValue = localStorage.getItem('cronName');
+      console.log('Cron Name: ',myValue);
 
-      axios.post('http://localhost:8081/dynamicSchedule/cronVal', this.expression)
-        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cronVal', this.expression)
+      if(myValue === 'cron-1'){
+        axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.expression)
+        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -369,6 +384,17 @@ export default {
           // Handle the error
           console.log("Error Occured!", error);
         });
+      } else{
+        axios.post('http://localhost:8081/dynamicSchedule/cron2Val', this.expression)
+        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron2Val', this.expression)
+        .then((response) => {
+          console.log("Response form Backend: ", response);
+        })
+        .catch((error) => {
+          // Handle the error
+          console.log("Error Occured!", error);
+        });
+      }       
     },
 
     setDelay() {
@@ -389,10 +415,16 @@ export default {
 
 <style scoped>
 
+*{
+  margin: 0;
+  padding: 0;
+}
+
 .master {
   margin-top: 0px;
   padding-top: 0px;
   background: lightblue;
+  height: 660px;
 }
 
 .selectdiv {
