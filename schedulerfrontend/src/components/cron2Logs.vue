@@ -45,7 +45,8 @@
     },
   
     mounted() {
-      axios.get('http://localhost:8081/getCron2Logs')
+      axios.get('http://localhost:8082/getCron2Logs') // Dynamic-Cron
+      // axios.get('http://localhost:8081/getCron2Logs') // Scheduler
         .then((response) => {
           console.log("Response form Backend: ", response);
           this.logs = response.data
