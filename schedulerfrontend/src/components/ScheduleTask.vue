@@ -347,8 +347,9 @@ export default {
       console.log('Cron Name: ',myValue);
 
       if(myValue === 'cron-1'){
-        axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.cronExpression)
-        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)
+        axios.post('http://localhost:8082/tasks/startCron1?taskId=cron-1&cronExpression='+this.cronExpression) // Dynamic-Cron
+        // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.cronExpression) // Scheduler
+        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)  // Integration
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -357,7 +358,8 @@ export default {
           console.log("Error Occured!", error);
         });
       } else{
-        axios.post('http://localhost:8081/dynamicSchedule/cron2Val', this.cronExpression)
+        axios.post('http://localhost:8082/tasks/startCron2?taskId=cron-2&cronExpression='+this.cronExpression) // Dynamic-Cron
+        // axios.post('http://localhost:8081/dynamicSchedule/cron2Val', this.cronExpression) // Scheduler
         // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron2Val', this.expression)
         .then((response) => {
           console.log("Response form Backend: ", response);
@@ -375,7 +377,8 @@ export default {
       console.log('Cron Name: ',myValue);
 
       if(myValue === 'cron-1'){
-        axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.expression)
+        axios.post('http://localhost:8082/tasks/startCron1?taskId=cron-1&cronExpression='+this.cronExpression) // Dynamic-Cron
+        // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.expression) // Scheduler
         // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)
         .then((response) => {
           console.log("Response form Backend: ", response);
@@ -385,7 +388,8 @@ export default {
           console.log("Error Occured!", error);
         });
       } else{
-        axios.post('http://localhost:8081/dynamicSchedule/cron2Val', this.expression)
+        axios.post('http://localhost:8082/tasks/startCron2?taskId=cron-2&cronExpression='+this.cronExpression) // Dynamic-Cron
+        // axios.post('http://localhost:8081/dynamicSchedule/cron2Val', this.expression) // Scheduler
         // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron2Val', this.expression)
         .then((response) => {
           console.log("Response form Backend: ", response);
