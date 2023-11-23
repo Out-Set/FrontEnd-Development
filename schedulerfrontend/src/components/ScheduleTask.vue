@@ -6,7 +6,7 @@
 
     <div class="selectdiv">
 
-      <div class="type" style="margin-bottom: 20px;">
+      <div class="type" style="margin-bottom: 30px; margin-top: 25px;">
         <input type="radio" id="one" value="One" name="cron" v-model="picked" />
         <label for="one">Create Cron Expression</label><br>
 
@@ -80,7 +80,7 @@
         </div>
 
         <div style="margin-right: 20px;">
-          <button disabled ref="enable_btn" class="reschedule-bt" v-on:click="set()">Set Schedule
+          <button disabled ref="setCronBtn" class="buttons" v-on:click="set()">Start
           </button>
         </div>
 
@@ -90,17 +90,17 @@
       <div style="padding-top: 50px; padding-bottom: 25px;" id="writeCron">
         <strong>Write Your cron Expression</strong>&nbsp;
         <input type="text" v-model="expression">&nbsp;
-        <button ref="cron-btn" class="reschedule-bt" v-on:click="setCronExp()">Set Schedule</button>&nbsp;&nbsp;
+        <button disabled ref="writeCronBtn" class="buttons" v-on:click="setCronExp()">Start</button>&nbsp;&nbsp;
 
         <!-- <strong>Enter Delay in MilliSecond</strong>&nbsp;
         <input type="number" v-model="delay">&nbsp;
-        <button ref="cron-btn" class="reschedule-bt" v-on:click="setDelay()">Set Delay</button> -->
+        <button ref="cron-btn" class="buttons" v-on:click="setDelay()">Set Delay</button> -->
       </div>
 
     </div>
 
     <div class="footerDiv mt-1">
-      <button @click="$router.back()" class="btn btn-secondary btn-sm mt-5">Go Back</button>
+      <button @click="$router.back()" class="buttons" style="margin-left: 91.5%; margin-top: 50px;">Back</button>
     </div>
 
   </div>
@@ -167,6 +167,9 @@ export default {
     console.log("Date: ", this.date);
     console.log("Month: ", this.month);
     console.log("Day: ", this.day);
+
+    document.getElementById("writeCron").style.display = "none";
+    document.getElementById("selectCron").style.display = "none";
   },
 
   watch: {
@@ -185,39 +188,39 @@ export default {
     },
 
     second(newSecond) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Second: ${newSecond}`);
       this.setCron()
     },
 
     minute(newMinute) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Minute: ${newMinute}`);
       this.setCron()
     },
 
     hour(newHour) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Hour: ${newHour}`);
       this.setCron()
     },
 
     sType(newType) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Type: ${newType}`);
       this.cronExpression = `* ${this.cMinute} ${this.cHour} ${this.cDate} ${this.cMonth} ${this.cDay}`
       this.second = 'All'
     },
 
     mType(newType) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Type: ${newType}`);
       this.cronExpression = `${this.cSecond} * ${this.cHour} ${this.cDate} ${this.cMonth} ${this.cDay}`
       this.minute = 'All'
     },
 
     hType(newType) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Type: ${newType}`);
       this.cronExpression = `${this.cSecond} ${this.cMinute} * ${this.cDate} ${this.cMonth} ${this.cDay}`
       this.hour = 'All'
@@ -225,20 +228,26 @@ export default {
 
 
     date(newDate) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Date: ${newDate}`);
       this.setCron()
     },
 
     month(newMonth) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Month: ${newMonth}`);
       this.setCron()
     },
 
     day(newDay) {
-      this.$refs.enable_btn.disabled = false
+      this.$refs.setCronBtn.disabled = false
       console.log(`Selected Day: ${newDay}`);
+      this.setCron()
+    },
+
+    expression(newExpression) {
+      this.$refs.writeCronBtn.disabled = false
+      console.log(`Written expression: ${newExpression}`);
       this.setCron()
     },
 
@@ -344,10 +353,9 @@ export default {
       console.log(typeof this.selectedData, this.selectedData);
 
       const myValue = localStorage.getItem('cronName');
-      console.log('Cron Name: ',myValue);
+      console.log('Cron Name: ', myValue);
 
-      if(myValue === 'cron-1'){
-        axios.post('http://localhost:8082/tasks/startCron1?taskId=cron-1&cronExpression='+this.cronExpression) // Dynamic-Cron
+      axios.post('http://localhost:8082/tasks/start?task=' + myValue + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
         // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.cronExpression) // Scheduler
         // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)  // Integration
         .then((response) => {
@@ -356,28 +364,15 @@ export default {
         .catch((error) => {
           // Handle the error
           console.log("Error Occured!", error);
-        });
-      } else{
-        axios.post('http://localhost:8082/tasks/startCron2?taskId=cron-2&cronExpression='+this.cronExpression) // Dynamic-Cron
-        // axios.post('http://localhost:8081/dynamicSchedule/cron2Val', this.cronExpression) // Scheduler
-        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron2Val', this.expression)
-        .then((response) => {
-          console.log("Response form Backend: ", response);
         })
-        .catch((error) => {
-          // Handle the error
-          console.log("Error Occured!", error);
-        });
-      }
     },
 
     setCronExp() {
       console.log(typeof this.expression, this.expression);
       const myValue = localStorage.getItem('cronName');
-      console.log('Cron Name: ',myValue);
+      console.log('Cron Name: ', myValue);
 
-      if(myValue === 'cron-1'){
-        axios.post('http://localhost:8082/tasks/startCron1?taskId=cron-1&cronExpression='+this.cronExpression) // Dynamic-Cron
+      axios.post('http://localhost:8082/tasks/start?task=' + myValue + '&cronExpression=' + this.expression) // Dynamic-Cron
         // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.expression) // Scheduler
         // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)
         .then((response) => {
@@ -387,18 +382,6 @@ export default {
           // Handle the error
           console.log("Error Occured!", error);
         });
-      } else{
-        axios.post('http://localhost:8082/tasks/startCron2?taskId=cron-2&cronExpression='+this.cronExpression) // Dynamic-Cron
-        // axios.post('http://localhost:8081/dynamicSchedule/cron2Val', this.expression) // Scheduler
-        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron2Val', this.expression)
-        .then((response) => {
-          console.log("Response form Backend: ", response);
-        })
-        .catch((error) => {
-          // Handle the error
-          console.log("Error Occured!", error);
-        });
-      }       
     },
 
     setDelay() {
@@ -418,8 +401,7 @@ export default {
 
 
 <style scoped>
-
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -442,12 +424,21 @@ export default {
   padding-left: 16px;
 }
 
-.reschedule-bt {
+.buttons {
   border: none;
   background: #1397AA;
   border-radius: 3px;
-  height: 20px;
   margin-bottom: 10px;
+  padding: 5px 20px;
+}
+
+.buttons:hover {
+  background: white;
+}
+
+select,
+input {
+  padding: 2px 10px;
 }
 
 @media (max-width: 767px) {
