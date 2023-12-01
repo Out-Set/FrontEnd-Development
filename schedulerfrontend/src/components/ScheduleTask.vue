@@ -7,6 +7,8 @@
     <div class="selectdiv">
 
       <div class="type" style="margin-bottom: 30px; margin-top: 25px;">
+        <h3 class="main">Select</h3>
+
         <input type="radio" id="one" value="One" name="cron" v-model="picked" />
         <label for="one">Create Cron Expression</label><br>
 
@@ -407,6 +409,11 @@ export default {
   padding: 0;
 }
 
+.main{
+  text-decoration: underline;
+  margin-bottom: 5px;
+}
+
 .master {
   margin-top: 0px;
   padding-top: 0px;
@@ -421,7 +428,7 @@ export default {
 .heading {
   height: 40px;
   background: lightcoral;
-  padding-top: 13px;
+  padding-top: 15px;
   padding-left: 16px;
 }
 
