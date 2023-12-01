@@ -4,32 +4,25 @@
             <h2 class="heading">{{ name }}</h2>
         </div>
 
+        <div style="margin-top: 15px">
+            Select Task Type
+            <select v-model="taskType" @change="fetchTaskNames()" style="width: 100px;">
+                <option v-for="taskType in taskTypes" :key="taskType" :value="taskType">{{ taskType }}</option>
+            </select>
+        </div>
+
         <div class="setAndViewLogs">
 
             <!-- Set Expression -->
             <div>
                 <h3 class="main">Set Cron Value</h3>
-                <select v-model="cron" style="width: 100px;">
-                    <option v-for="cron in crons" :key="cron" :value="cron">{{ cron }}</option>
+                <select v-model="taskName" style="width: 100px;">
+                    <option v-for="taskName in taskNames" :key="taskName" :value="taskName">{{ taskName }}</option>
                 </select>&nbsp;
 
                 <router-link to="/scheduleTask">
-                    <button v-on:click="setCronToLS()" class="mb-5"
+                    <button v-on:click="setTaskToLS()" class="mb-5"
                         :class="{ active: this.$route.path === '/scheduleTask' }" aria-current="page">Set
-                    </button>
-                </router-link>
-            </div>
-
-            <!-- Get Logs -->
-            <div>
-                <h3 class="main">View Logs</h3>
-                <select v-model="cron" style="width: 100px;">
-                    <option v-for="cron in crons" :key="cron" :value="cron">{{ cron }}</option>
-                </select>&nbsp;
-
-                <router-link :to="{ path: this.cron === 'cron-1' ? '/cron1Logs' : '/cron2Logs' }">
-                    <button 
-                        :class="{ active: this.$route.path === '/cronLogs' }" aria-current="page">View
                     </button>
                 </router-link>
             </div>
@@ -37,11 +30,20 @@
             <!-- Stop prog Execution -->
             <div>
                 <h3 class="main">Stop and Start</h3>
-                <select v-model="cron" style="width: 100px;">
-                    <option v-for="cron in crons" :key="cron" :value="cron">{{ cron }}</option>
+                <select v-model="taskStartStop" style="width: 100px;">
+                    <option v-for="taskName in taskNames" :key="taskName" :value="taskName">{{ taskName }}</option>
                 </select>&nbsp;
-                <button v-on:click="stopCron(this.cron)">Stop</button>&nbsp;
-                <button v-on:click="startCron(this.cron)">Start</button>
+                <button v-on:click="stopTask(this.taskStartStop)">Stop</button>&nbsp;
+                <button v-on:click="startAtInit(this.taskStartStop)">Start</button>
+            </div>
+
+            <!-- View Logs -->
+            <div>
+                <h3 class="main">Common Logs</h3>
+                <router-link to="/commonLogs">
+                    <button :class="{ active: this.$route.path === '/commonLogs' }" aria-current="page">View
+                    </button>
+                </router-link>
             </div>
         </div>
 
@@ -56,20 +58,47 @@ export default {
     data() {
         return {
             name: "Cron Dashboard",
-            crons: ['cron-1', 'cron-2'],
-            cron: 'cron-1'
 
+            taskTypes: ['proc', 'api', 'method'],
+            taskType: 'proc',
+
+            taskNames: [],
+            taskName: '',
+
+            taskStartStop: '',
+        }
+    },
+
+    mounted() {
+        axios.get('http://localhost:8082/scheduledTask/findTaskName/proc') // Dynamic-Cron
+            .then((response) => {
+                console.log("Response form Backend: ", response);
+                this.taskNames = response.data
+                this.taskName = this.taskNames[0]
+                this.taskStartStop = this.taskNames[0]
+                localStorage.setItem('taskType', this.taskType);
+            })
+            .catch((error) => {
+                // Handle the error
+                console.log("Error Occured!", error);
+            })
+    },
+
+    watch: {
+        taskType(taskType) {
+            console.log('Task Type: ', taskType);
+            localStorage.setItem('taskType', this.taskType);
         }
     },
 
     methods: {
-        setCronToLS() {
-            localStorage.setItem('cronName', this.cron);
+        setTaskToLS() {
+            localStorage.setItem('taskName', this.taskName);
         },
 
-        stopCron(cron) {
-            console.log('cron-name: ',cron);
-            axios.post('http://localhost:8082/tasks/stop?task='+cron) // Dynamic-Cron
+        stopTask(taskStartStop) {
+            console.log('task-name: ', taskStartStop);
+            axios.post('http://localhost:8082/tasks/stop?taskName=' + taskStartStop) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
@@ -80,12 +109,27 @@ export default {
                 })
         },
 
-        startCron(cron) {
-            console.log('cron-name: ',cron);
-            axios.post('http://localhost:8082/tasks/startAtInit?task='+cron) // Dynamic-Cron
+        startAtInit(taskStartStop) {
+            console.log('task-name: ', taskStartStop);
+            axios.post('http://localhost:8082/tasks/startAtInit?taskName=' + taskStartStop) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
+                })
+                .catch((error) => {
+                    // Handle the error
+                    console.log("Error Occured!", error);
+                })
+        },
+
+        fetchTaskNames() {
+            console.log('Task type selected:', this.taskType);
+            axios.get('http://localhost:8082/scheduledTask/findTaskName/' + this.taskType) // Dynamic-Cron
+                .then((response) => {
+                    console.log("Response form Backend: ", response);
+                    this.taskNames = response.data
+                    this.taskName = this.taskNames[0]
+                    this.taskStartStop = this.taskNames[0]
                 })
                 .catch((error) => {
                     // Handle the error
@@ -127,20 +171,19 @@ export default {
     margin-top: 50px;
 }
 
-select{
+select {
     padding: 3px 10px;
 }
 
 button {
-  border: none;
-  border-radius: 3px;
-  margin-bottom: 10px;
-  padding: 4px 20px;
-}
-button:hover{
-  background: #1397AA;
-  color: white;
+    border: none;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 4px 20px;
 }
 
-
+button:hover {
+    background: #1397AA;
+    color: white;
+}
 </style>
