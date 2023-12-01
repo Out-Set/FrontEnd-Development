@@ -12,14 +12,9 @@ const routes = [
         component: () => import('@/components/ScheduleTask.vue')
     },
     {
-        name: 'cron1Logs',
-        path: '/cron1Logs',
-        component: () => import('@/components/cron1Logs.vue')
-    },
-    {
-        name: 'cron2Logs',
-        path: '/cron2Logs',
-        component: () => import('@/components/cron2Logs.vue')
+        name: 'commonLogs',
+        path: '/commonLogs',
+        component: () => import('@/components/commonLogs.vue')
     },
     
 ]

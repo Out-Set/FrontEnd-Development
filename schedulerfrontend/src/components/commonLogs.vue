@@ -1,7 +1,7 @@
 <template>
     <div>
       <div>
-        <h3 class="heading">Cron-2 Logs</h3>
+        <h3 class="heading">{{ log}}</h3>
       </div>
   
       <div class="allDataDiv" style="">
@@ -9,6 +9,8 @@
           <thead>
             <tr>
               <th scope="col">LogID</th>
+              <th scope="col">Task Type</th>
+              <th scope="col">Task Name</th>
               <th scope="col">LAST START TIME</th>
               <th scope="col">NEXT RUN TIME</th>
               <!-- <th scope="col">LAST RUN DURATION</th> -->
@@ -17,6 +19,8 @@
           <tbody>
             <tr v-for="data in (logs)" :key="data.jobName">
               <td>{{ data.logID }}</td>
+              <td>{{ data.taskType }}</td>
+              <td>{{ data.taskName }}</td>
               <td> {{ dateFormat(data.startTime) }} </td>
               <td>{{ dateFormat(data.nextStartTime) }}</td>
               <!-- <td>{{ data.lastRunDuration }}</td> -->
@@ -36,17 +40,17 @@
   import moment from 'moment';
   
   export default {
-    name: "cron2Logs",
+    name: "commonLogs",
     data() {
       return {
-        log: 'Cron-Logs',
+        log: 'Common-Logs',
         logs: []
       }
     },
   
     mounted() {
-      axios.get('http://localhost:8082/getCron2Logs') // Dynamic-Cron
-      // axios.get('http://localhost:8081/getCron2Logs') // Scheduler
+      axios.get('http://localhost:8082/logs/getCommonLogs') // Dynamic-Cron
+      // axios.get('http://localhost:8081/getCron1Logs') // Scheduler
         .then((response) => {
           console.log("Response form Backend: ", response);
           this.logs = response.data

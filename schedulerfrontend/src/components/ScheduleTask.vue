@@ -80,7 +80,7 @@
         </div>
 
         <div style="margin-right: 20px;">
-          <button disabled ref="setCronBtn" class="buttons" v-on:click="set()">Start
+          <button disabled ref="setCronBtn" class="buttons" v-on:click="setCreatedCronExp()">Start
           </button>
         </div>
 
@@ -89,8 +89,8 @@
       <!-- WriteCron -->
       <div style="padding-top: 50px; padding-bottom: 25px;" id="writeCron">
         <strong>Write Your cron Expression</strong>&nbsp;
-        <input type="text" v-model="expression">&nbsp;
-        <button disabled ref="writeCronBtn" class="buttons" v-on:click="setCronExp()">Start</button>&nbsp;&nbsp;
+        <input type="text" v-model="writeExpression">&nbsp;
+        <button disabled ref="writeCronBtn" class="buttons" v-on:click="setWrittenCronExp()">Start</button>&nbsp;&nbsp;
 
         <!-- <strong>Enter Delay in MilliSecond</strong>&nbsp;
         <input type="number" v-model="delay">&nbsp;
@@ -142,7 +142,7 @@ export default {
       day: 'All',
 
       selectedData: "",
-      expression: "",
+      writeExpression: "",
       delay: 0,
 
       cSecond: '*',
@@ -245,7 +245,7 @@ export default {
       this.setCron()
     },
 
-    expression(newExpression) {
+    writeExpression(newExpression) {
       this.$refs.writeCronBtn.disabled = false
       console.log(`Written expression: ${newExpression}`);
       this.setCron()
@@ -347,15 +347,16 @@ export default {
       }
     },
 
-    set() {
+    setCreatedCronExp() {
       console.log(this.second, this.minute, this.hour, this.date, this.month, this.day);
       this.selectedData = this.second + " " + this.minute + " " + this.hour + " " + this.date + " " + this.month + " " + this.day
       console.log(typeof this.selectedData, this.selectedData);
+      
+      console.log(typeof this.cronExpression, this.cronExpression);
+      const taskName = localStorage.getItem('taskName');
+      console.log('Task Name: ', taskName);
 
-      const myValue = localStorage.getItem('cronName');
-      console.log('Cron Name: ', myValue);
-
-      axios.post('http://localhost:8082/tasks/start?task=' + myValue + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
+      axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
         // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.cronExpression) // Scheduler
         // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)  // Integration
         .then((response) => {
@@ -366,15 +367,15 @@ export default {
           console.log("Error Occured!", error);
         })
     },
+  
+    setWrittenCronExp() {
+      console.log(typeof this.writeExpression, this.writeExpression);
+      const taskName = localStorage.getItem('taskName');
+      console.log('Task Name: ', taskName);
 
-    setCronExp() {
-      console.log(typeof this.expression, this.expression);
-      const myValue = localStorage.getItem('cronName');
-      console.log('Cron Name: ', myValue);
-
-      axios.post('http://localhost:8082/tasks/start?task=' + myValue + '&cronExpression=' + this.expression) // Dynamic-Cron
-        // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.expression) // Scheduler
-        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)
+      axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
+        // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.writeExpression) // Scheduler
+        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.writeExpression)
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
