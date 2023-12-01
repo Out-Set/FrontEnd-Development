@@ -46,6 +46,33 @@
                 </router-link>
             </div>
         </div>
+        <div style="height: 1px; background: black; margin-top: 50px"></div>
+
+        <div>
+            <h3 class="main" style="margin-top: 5px">All Tasks With Status</h3>
+
+            <div class="allDataDiv" style="">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">LogID</th>
+                            <th scope="col">Task Type</th>
+                            <th scope="col">Task Name</th>
+                            <th scope="col">STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="data in (tasksWithStatus)" :key="data.jobName">
+                            <td>{{ data.id }}</td>
+                            <td>{{ data.taskType }}</td>
+                            <td>{{ data.taskName }}</td>
+                            <td> {{ data.status }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
 
     </div>
 </template>
@@ -66,6 +93,8 @@ export default {
             taskName: '',
 
             taskStartStop: '',
+
+            tasksWithStatus: []
         }
     },
 
@@ -76,12 +105,27 @@ export default {
                 this.taskNames = response.data
                 this.taskName = this.taskNames[0]
                 this.taskStartStop = this.taskNames[0]
+
+                //save list of tasks to Local Storage
+                localStorage.setItem('taskNames', JSON.stringify(response.data));
                 localStorage.setItem('taskType', this.taskType);
             })
             .catch((error) => {
                 // Handle the error
                 console.log("Error Occured!", error);
+        })
+
+        // Tasks with status
+        axios.get('http://localhost:8082/scheduledTask/tasksWithStatus') // Dynamic-Cron
+            .then((response) => {
+                console.log("tasksWithStatus form Backend: ", response);
+                this.tasksWithStatus = [];
+                this.tasksWithStatus = response.data
             })
+            .catch((error) => {
+                // Handle the error
+                console.log("Error Occured!", error);
+        })
     },
 
     watch: {
@@ -102,6 +146,7 @@ export default {
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
+                    location.reload();
                 })
                 .catch((error) => {
                     // Handle the error
@@ -115,6 +160,7 @@ export default {
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
+                    location.reload();
                 })
                 .catch((error) => {
                     // Handle the error
@@ -130,6 +176,9 @@ export default {
                     this.taskNames = response.data
                     this.taskName = this.taskNames[0]
                     this.taskStartStop = this.taskNames[0]
+
+                    //save list of tasks to Local Storage
+                    localStorage.setItem('taskNames', JSON.stringify(response.data));
                 })
                 .catch((error) => {
                     // Handle the error
@@ -150,7 +199,7 @@ export default {
     margin-top: 0px;
     padding-top: 0px;
     background: lightblue;
-    height: 660px;
+    height: 690px;
 }
 
 .heading {
@@ -185,5 +234,31 @@ button {
 button:hover {
     background: #1397AA;
     color: white;
+}
+
+
+.allDataDiv {
+    padding: auto;
+    width: 100%;
+    height: 410px;
+    overflow: scroll;
+}
+
+.table {
+    width: 1275px;
+}
+
+thead tr th {
+    background-color: lightskyblue;
+    font-size: 14px;
+}
+
+tbody tr td {
+    font-size: 12px;
+}
+
+thead {
+    position: sticky;
+    top: 0;
 }
 </style>
