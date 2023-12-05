@@ -236,7 +236,6 @@ button:hover {
     color: white;
 }
 
-
 .allDataDiv {
     padding: auto;
     width: 100%;
@@ -262,3 +261,6 @@ thead {
     top: 0;
 }
 </style>
+
+
+
