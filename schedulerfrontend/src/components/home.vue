@@ -1,47 +1,48 @@
 <template>
-    <div class="master">
-        <div>
-            <h2 class="heading">{{ name }}</h2>
+    <div class="master container-fluid">
+        <div class="heading row">
+            <h3>{{ name }}</h3>
         </div>
 
-        <div style="margin-top: 15px">
+        <div class="mt-2">
             Select Task Type
             <select v-model="taskType" @change="fetchTaskNames()" style="width: 100px;">
                 <option v-for="taskType in taskTypes" :key="taskType" :value="taskType">{{ taskType }}</option>
             </select>
         </div>
 
-        <div class="setAndViewLogs">
+        <div class="setAndViewLogs row">
 
             <!-- Set Expression -->
             <div>
-                <h3 class="main">Set Cron Value</h3>
+                <p class="main">Reset Cron Value</p>
                 <select v-model="taskName" style="width: 100px;">
                     <option v-for="taskName in taskNames" :key="taskName" :value="taskName">{{ taskName }}</option>
                 </select>&nbsp;
 
                 <router-link to="/scheduleTask">
-                    <button v-on:click="setTaskToLS()" class="mb-5"
-                        :class="{ active: this.$route.path === '/scheduleTask' }" aria-current="page">Set
+                    <button v-on:click="setTaskToLS()" class="btn btn-primary btn-sm"
+                        :class="{ active: this.$route.path === '/scheduleTask' }" aria-current="page">Reset
                     </button>
                 </router-link>
             </div>
 
             <!-- Stop prog Execution -->
             <div>
-                <h3 class="main">Stop and Start</h3>
+                <p class="main">Stop and Start</p>
                 <select v-model="taskStartStop" style="width: 100px;">
                     <option v-for="taskName in taskNames" :key="taskName" :value="taskName">{{ taskName }}</option>
                 </select>&nbsp;
-                <button v-on:click="stopTask(this.taskStartStop)">Stop</button>&nbsp;
-                <button v-on:click="startAtInit(this.taskStartStop)">Start</button>
+                <button class="btn btn-primary btn-sm" v-on:click="stopTask(this.taskStartStop)">Stop</button>&nbsp;
+                <button class="btn btn-primary btn-sm" v-on:click="startAtInit(this.taskStartStop)">Start</button>
             </div>
 
             <!-- View Logs -->
             <div>
-                <h3 class="main">Common Logs</h3>
+                <p class="main">Common Logs</p>
                 <router-link to="/commonLogs">
-                    <button :class="{ active: this.$route.path === '/commonLogs' }" aria-current="page">View
+                    <button class="btn btn-primary btn-sm"
+                        :class="{ active: this.$route.path === '/commonLogs' }" aria-current="page">View
                     </button>
                 </router-link>
             </div>
@@ -49,10 +50,10 @@
         <div style="height: 1px; background: black; margin-top: 50px"></div>
 
         <div>
-            <h3 class="main" style="margin-top: 5px">All Tasks With Status</h3>
+            <p class="main" style="background-color: burlywood;">All Tasks With Status</p>
 
             <div class="allDataDiv" style="">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">LogID</th>
@@ -73,8 +74,8 @@
             </div>
 
         </div>
-
     </div>
+
 </template>
 
 <script>
@@ -94,12 +95,15 @@ export default {
 
             taskStartStop: '',
 
-            tasksWithStatus: []
+            tasksWithStatus: [],
+            
+            ip: '192.168.1.2'
         }
     },
-
+    // 8081/BitsFlow-App
     mounted() {
-        axios.get('http://localhost:8082/scheduledTask/findTaskName/proc') // Dynamic-Cron
+        axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/findTaskName/proc') // bitsflow-intg
+        // axios.get('http://localhost:8082/scheduledTask/findTaskName/proc') // Dynamic-Cron
             .then((response) => {
                 console.log("Response form Backend: ", response);
                 this.taskNames = response.data
@@ -113,10 +117,11 @@ export default {
             .catch((error) => {
                 // Handle the error
                 console.log("Error Occured!", error);
-        })
+            })
 
         // Tasks with status
-        axios.get('http://localhost:8082/scheduledTask/tasksWithStatus') // Dynamic-Cron
+        axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/tasksWithStatus') // bitsflow-intg
+        // axios.get('http://localhost:8082/scheduledTask/tasksWithStatus') // Dynamic-Cron
             .then((response) => {
                 console.log("tasksWithStatus form Backend: ", response);
                 this.tasksWithStatus = [];
@@ -125,7 +130,7 @@ export default {
             .catch((error) => {
                 // Handle the error
                 console.log("Error Occured!", error);
-        })
+            })
     },
 
     watch: {
@@ -142,7 +147,8 @@ export default {
 
         stopTask(taskStartStop) {
             console.log('task-name: ', taskStartStop);
-            axios.post('http://localhost:8082/tasks/stop?taskName=' + taskStartStop) // Dynamic-Cron
+            axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/stop?taskName=' + taskStartStop) // bitsflow-intg
+            // axios.post('http://localhost:8082/tasks/stop?taskName=' + taskStartStop) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
@@ -156,7 +162,8 @@ export default {
 
         startAtInit(taskStartStop) {
             console.log('task-name: ', taskStartStop);
-            axios.post('http://localhost:8082/tasks/startAtInit?taskName=' + taskStartStop) // Dynamic-Cron
+            axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/startAtInit?taskName=' + taskStartStop) // bitsflow-intg
+            // axios.post('http://localhost:8082/tasks/startAtInit?taskName=' + taskStartStop) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
@@ -170,7 +177,8 @@ export default {
 
         fetchTaskNames() {
             console.log('Task type selected:', this.taskType);
-            axios.get('http://localhost:8082/scheduledTask/findTaskName/' + this.taskType) // Dynamic-Cron
+            axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/findTaskName/' + this.taskType) // bitsflow-intg
+            // axios.get('http://localhost:8082/scheduledTask/findTaskName/' + this.taskType) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.taskNames = response.data
@@ -199,19 +207,19 @@ export default {
     margin-top: 0px;
     padding-top: 0px;
     background: lightblue;
-    height: 690px;
+    height: 251px;
 }
 
 .heading {
-    height: 40px;
+    height: 45px;
     background: lightcoral;
-    padding-top: 13px;
+    padding-top: 9px;
     padding-left: 16px;
 }
 
 .main {
     text-decoration: underline;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 
 .setAndViewLogs {
@@ -221,7 +229,9 @@ export default {
 }
 
 select {
-    padding: 3px 10px;
+    /* padding: 5px 10px 0px 10px; */
+    padding-top: 6px;
+    padding-left: 7px;
 }
 
 button {
