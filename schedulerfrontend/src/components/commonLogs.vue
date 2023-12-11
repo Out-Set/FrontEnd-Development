@@ -1,9 +1,9 @@
 <template>
     <!-- <spinner v-if="loader"></spinner> -->
 
-    <div>
-        <div>
-            <h3 class="heading">{{ log }}</h3>
+    <div class="container-fluid">
+        <div class="heading row">
+            <h3>Common-Logs</h3>
         </div>
 
         <div class="filter">Task Name
@@ -13,7 +13,7 @@
         </div>
 
         <div class="allDataDiv" style="">
-            <table class="table">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">LogID</th>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="footerDiv mt-1">
-            <button @click="$router.back()" class="btn btn-secondary btn-sm mt-5">Back</button>
+            <button @click="$router.back()" class="btn btn-secondary btn-sm">Back</button>
         </div>
     </div>
 </template>
@@ -57,7 +57,9 @@ export default {
 
             loader: true,
 
-            filteredData: []
+            filteredData: [],
+
+            ip: '192.168.1.2'
         }
     },
 
@@ -69,7 +71,8 @@ export default {
         this.taskName = this.taskNames[0]
         console.log('Task Names: ', this.taskNames, 'task name: ', this.taskName);
 
-        axios.get('http://localhost:8082/logs/getCommonLogs') // Dynamic-Cron
+        axios.get('http://'+this.ip+':8081/BitsFlow-App/logs/getCommonLogs') // bitsflow-intg
+        // axios.get('http://localhost:8082/logs/getCommonLogs') // Dynamic-Cron
             .then((response) => {
                 console.log("Response form Backend: ", response);
                 this.logs = response.data
@@ -105,8 +108,6 @@ export default {
                 }
             }
         }
-
-
     }
 };
 
@@ -146,15 +147,14 @@ thead {
 }
 
 .heading {
-    height: 40px;
+    height: 45px;
     background: lightcoral;
-    padding-top: 15px;
-    margin-bottom: 0px;
+    padding-top: 10px;
 }
 
 .footerDiv {
     width: 100%;
-    height: 25px;
+    height: 30px;
     display: flex;
     justify-content: flex-end;
     background-color: #c9c9c9;

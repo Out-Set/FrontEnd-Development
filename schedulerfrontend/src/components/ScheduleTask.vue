@@ -1,13 +1,13 @@
 <template>
-  <div class="master">
-    <div>
-      <h3 class="heading">Set Schedule</h3>
+  <div class="master container-fluid">
+    <div class="heading row">
+      <h3>Reset Cron</h3>
     </div>
 
     <div class="selectdiv">
 
       <div class="type" style="margin-bottom: 30px; margin-top: 25px;">
-        <h3 class="main">Select</h3>
+        <h5 class="main">Select</h5>
 
         <input type="radio" id="one" value="One" name="cron" v-model="picked" />
         <label for="one">Create Cron Expression</label><br>
@@ -24,7 +24,7 @@
         </div>
 
         <div
-          style="padding-top: 10px; padding-bottom: 25px; display: grid; grid-template-columns: auto auto auto auto auto auto;">
+          style="padding-top: 20px; padding-bottom: 25px; display: grid; grid-template-columns: auto auto auto auto auto auto;">
           <div>
             <strong>Second:</strong>
             <select v-model="sType">
@@ -156,7 +156,9 @@ export default {
       cMonth: '*',
       cDay: '*',
 
-      picked: ''
+      picked: '',
+
+      ip: '192.168.1.2'
     }
   },
 
@@ -353,14 +355,13 @@ export default {
       console.log(this.second, this.minute, this.hour, this.date, this.month, this.day);
       this.selectedData = this.second + " " + this.minute + " " + this.hour + " " + this.date + " " + this.month + " " + this.day
       console.log(typeof this.selectedData, this.selectedData);
-      
+
       console.log(typeof this.cronExpression, this.cronExpression);
       const taskName = localStorage.getItem('taskName');
       console.log('Task Name: ', taskName);
 
-      axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
-        // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.cronExpression) // Scheduler
-        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.expression)  // Integration
+      axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // bitsflow-intg
+      // axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -369,15 +370,14 @@ export default {
           console.log("Error Occured!", error);
         })
     },
-  
+
     setWrittenCronExp() {
       console.log(typeof this.writeExpression, this.writeExpression);
       const taskName = localStorage.getItem('taskName');
       console.log('Task Name: ', taskName);
 
-      axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
-        // axios.post('http://localhost:8081/dynamicSchedule/cron1Val', this.writeExpression) // Scheduler
-        // axios.post('http://localhost:8081/BitsFlow-App/springScheduler/cron1Val', this.writeExpression)
+      axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // bitsflow-intg
+      // axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -389,7 +389,8 @@ export default {
 
     setDelay() {
       console.log(typeof this.delay, this.delay);
-      axios.get('http://localhost:8081/dynamicSchedule/delayVal?delay=' + this.delay)
+      axios.get('http://'+this.ip+':8081/BitsFlow-App/dynamicSchedule/delayVal?delay=' + this.delay) // bitsflow-intg
+      // axios.get('http://localhost:8081/dynamicSchedule/delayVal?delay=' + this.delay) // Dynamic-Cron
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -409,7 +410,7 @@ export default {
   padding: 0;
 }
 
-.main{
+.main {
   text-decoration: underline;
   margin-bottom: 5px;
 }
@@ -426,10 +427,9 @@ export default {
 }
 
 .heading {
-  height: 40px;
+  height: 45px;
   background: lightcoral;
-  padding-top: 15px;
-  padding-left: 16px;
+  padding-top: 9px;
 }
 
 .buttons {
@@ -437,7 +437,7 @@ export default {
   background: #1397AA;
   border-radius: 3px;
   margin-bottom: 10px;
-  padding: 5px 20px;
+  padding: 2px 20px;
 }
 
 .buttons:hover {
