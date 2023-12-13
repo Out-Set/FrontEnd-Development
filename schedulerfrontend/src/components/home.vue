@@ -97,7 +97,7 @@ export default {
 
             tasksWithStatus: [],
             
-            ip: '192.168.1.2'
+            ip: 'localhost'
         }
     },
     // 8081/BitsFlow-App
