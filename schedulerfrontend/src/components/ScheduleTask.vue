@@ -158,7 +158,7 @@ export default {
 
       picked: '',
 
-      ip: '192.168.1.2'
+      ip: 'localhost'
     }
   },
 

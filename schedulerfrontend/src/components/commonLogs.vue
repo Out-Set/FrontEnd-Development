@@ -1,5 +1,5 @@
 <template>
-    <!-- <spinner v-if="loader"></spinner> -->
+    <spinner v-if="loader"></spinner>
 
     <div class="container-fluid">
         <div class="heading row">
@@ -44,9 +44,13 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import spinner from './spinner.vue'
 
 export default {
     name: "commonLogs",
+    components: {
+        spinner
+    },
     data() {
         return {
             log: 'Common-Logs',
@@ -59,7 +63,7 @@ export default {
 
             filteredData: [],
 
-            ip: '192.168.1.2'
+            ip: 'localhost'
         }
     },
 

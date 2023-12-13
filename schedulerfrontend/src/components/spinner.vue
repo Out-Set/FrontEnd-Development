@@ -4,7 +4,7 @@
             <div class="modal-dialog" role="document">
                 <div class="customSpinner">
                     <div class="modal-header">
-                        <h6 class="modal-title"><i class="fa-solid fa-spinner fa-spin-pulse"></i> Loading</h6>
+                        <h6 class="modal-title">Loading</h6>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 23%;
+    width: 20%;
     margin-left: 43%;
     color: var(--bs-modal-color);
     pointer-events: auto;
