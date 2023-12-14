@@ -56,7 +56,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">LogID</th>
+                            <th scope="col">TaskID</th>
                             <th scope="col">Task Type</th>
                             <th scope="col">Task Name</th>
                             <th scope="col">STATUS</th>

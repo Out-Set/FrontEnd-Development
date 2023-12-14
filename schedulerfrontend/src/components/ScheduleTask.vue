@@ -376,7 +376,7 @@ export default {
       const taskName = localStorage.getItem('taskName');
       console.log('Task Name: ', taskName);
 
-      axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // bitsflow-intg
+      axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/start?taskName=' + taskName + '&cronExpression=' + this.writeExpression) // bitsflow-intg
       // axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
         .then((response) => {
           console.log("Response form Backend: ", response);
