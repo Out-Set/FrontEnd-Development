@@ -360,8 +360,8 @@ export default {
       const taskName = localStorage.getItem('taskName');
       console.log('Task Name: ', taskName);
 
-      axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // bitsflow-intg
-      // axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
+      // axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // bitsflow-intg
+      axios.post('http://localhost:8082/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -376,8 +376,8 @@ export default {
       const taskName = localStorage.getItem('taskName');
       console.log('Task Name: ', taskName);
 
-      axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/start?taskName=' + taskName + '&cronExpression=' + this.writeExpression) // bitsflow-intg
-      // axios.post('http://localhost:8082/tasks/start?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
+      // axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.writeExpression) // bitsflow-intg
+      axios.post('http://localhost:8082/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -389,8 +389,8 @@ export default {
 
     setDelay() {
       console.log(typeof this.delay, this.delay);
-      axios.get('http://'+this.ip+':8081/BitsFlow-App/dynamicSchedule/delayVal?delay=' + this.delay) // bitsflow-intg
-      // axios.get('http://localhost:8081/dynamicSchedule/delayVal?delay=' + this.delay) // Dynamic-Cron
+      // axios.get('http://'+this.ip+':8081/BitsFlow-App/dynamicSchedule/delayVal?delay=' + this.delay) // bitsflow-intg
+      axios.get('http://localhost:8081/dynamicSchedule/delayVal?delay=' + this.delay) // Dynamic-Cron
         .then((response) => {
           console.log("Response form Backend: ", response);
         })

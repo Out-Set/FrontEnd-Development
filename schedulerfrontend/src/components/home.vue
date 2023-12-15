@@ -102,8 +102,8 @@ export default {
     },
     // 8081/BitsFlow-App
     mounted() {
-        axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/findTaskName/proc') // bitsflow-intg
-        // axios.get('http://localhost:8082/scheduledTask/findTaskName/proc') // Dynamic-Cron
+        // axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/findTaskName/proc') // bitsflow-intg
+        axios.get('http://localhost:8082/scheduledTask/findTaskName/proc') // Dynamic-Cron
             .then((response) => {
                 console.log("Response form Backend: ", response);
                 this.taskNames = response.data
@@ -120,8 +120,8 @@ export default {
             })
 
         // Tasks with status
-        axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/tasksWithStatus') // bitsflow-intg
-        // axios.get('http://localhost:8082/scheduledTask/tasksWithStatus') // Dynamic-Cron
+        // axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/tasksWithStatus') // bitsflow-intg
+        axios.get('http://localhost:8082/scheduledTask/tasksWithStatus') // Dynamic-Cron
             .then((response) => {
                 console.log("tasksWithStatus form Backend: ", response);
                 this.tasksWithStatus = [];
@@ -147,8 +147,8 @@ export default {
 
         stopTask(taskStartStop) {
             console.log('task-name: ', taskStartStop);
-            axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/stop?taskName=' + taskStartStop) // bitsflow-intg
-            // axios.post('http://localhost:8082/tasks/stop?taskName=' + taskStartStop) // Dynamic-Cron
+            // axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/stop?taskName=' + taskStartStop) // bitsflow-intg
+            axios.post('http://localhost:8082/tasks/stop?taskName=' + taskStartStop) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
@@ -162,8 +162,8 @@ export default {
 
         startAtInit(taskStartStop) {
             console.log('task-name: ', taskStartStop);
-            axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/startAtInit?taskName=' + taskStartStop) // bitsflow-intg
-            // axios.post('http://localhost:8082/tasks/startAtInit?taskName=' + taskStartStop) // Dynamic-Cron
+            // axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/start?taskName=' + taskStartStop) // bitsflow-intg
+            axios.post('http://localhost:8082/tasks/start?taskName=' + taskStartStop) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
@@ -177,8 +177,8 @@ export default {
 
         fetchTaskNames() {
             console.log('Task type selected:', this.taskType);
-            axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/findTaskName/' + this.taskType) // bitsflow-intg
-            // axios.get('http://localhost:8082/scheduledTask/findTaskName/' + this.taskType) // Dynamic-Cron
+            // axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/findTaskName/' + this.taskType) // bitsflow-intg
+            axios.get('http://localhost:8082/scheduledTask/findTaskName/' + this.taskType) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.taskNames = response.data
