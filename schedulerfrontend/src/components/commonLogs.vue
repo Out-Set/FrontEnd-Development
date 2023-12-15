@@ -17,19 +17,21 @@
                 <thead>
                     <tr>
                         <th scope="col">LogID</th>
-                        <th scope="col">Task Type</th>
-                        <th scope="col">Task Name</th>
+                        <!-- <th scope="col">Task Type</th>
+                        <th scope="col">Task Name</th> -->
                         <th scope="col">LAST START TIME</th>
                         <th scope="col">NEXT RUN TIME</th>
+                        <th scope="col">EXECUTION STATUS</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="data in (filteredData)" :key="data.jobName">
                         <td>{{ data.logID }}</td>
-                        <td>{{ data.taskType }}</td>
-                        <td>{{ data.taskName }}</td>
-                        <td> {{ dateFormat(data.startTime) }} </td>
+                        <!-- <td>{{ data.taskType }}</td>
+                        <td>{{ data.taskName }}</td> -->
+                        <td>{{ dateFormat(data.startTime) }}</td>
                         <td>{{ dateFormat(data.nextStartTime) }}</td>
+                        <td>{{ data.executionStatus }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -75,8 +77,8 @@ export default {
         this.taskName = this.taskNames[0]
         console.log('Task Names: ', this.taskNames, 'task name: ', this.taskName);
 
-        axios.get('http://'+this.ip+':8081/BitsFlow-App/logs/getCommonLogs') // bitsflow-intg
-        // axios.get('http://localhost:8082/logs/getCommonLogs') // Dynamic-Cron
+        // axios.get('http://'+this.ip+':8081/BitsFlow-App/logs/getCommonLogs') // bitsflow-intg
+        axios.get('http://localhost:8082/logs/getCommonLogs') // Dynamic-Cron
             .then((response) => {
                 console.log("Response form Backend: ", response);
                 this.logs = response.data
