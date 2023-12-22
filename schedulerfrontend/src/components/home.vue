@@ -41,8 +41,8 @@
             <div>
                 <p class="main">Common Logs</p>
                 <router-link to="/commonLogs">
-                    <button class="btn btn-primary btn-sm"
-                        :class="{ active: this.$route.path === '/commonLogs' }" aria-current="page">View
+                    <button class="btn btn-primary btn-sm" :class="{ active: this.$route.path === '/commonLogs' }"
+                        aria-current="page">View
                     </button>
                 </router-link>
             </div>
@@ -74,8 +74,11 @@
             </div>
 
         </div>
-    </div>
 
+        <div>
+            <button @click="makeApiCall()" class="btn btn-primary btn-sm">click me</button>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -96,14 +99,14 @@ export default {
             taskStartStop: '',
 
             tasksWithStatus: [],
-            
+
             ip: 'localhost'
         }
     },
     // 8081/BitsFlow-App
     mounted() {
-        // axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/findTaskName/proc') // bitsflow-intg
-        axios.get('http://localhost:8082/scheduledTask/findTaskName/proc') // Dynamic-Cron
+        axios.get('http://' + this.ip + ':8081/BitsFlow-App/scheduledTask/findTaskName/proc') // bitsflow-intg
+            // axios.get('http://localhost:8082/scheduledTask/findTaskName/proc') // Dynamic-Cron
             .then((response) => {
                 console.log("Response form Backend: ", response);
                 this.taskNames = response.data
@@ -120,8 +123,8 @@ export default {
             })
 
         // Tasks with status
-        // axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/tasksWithStatus') // bitsflow-intg
-        axios.get('http://localhost:8082/scheduledTask/tasksWithStatus') // Dynamic-Cron
+        axios.get('http://' + this.ip + ':8081/BitsFlow-App/scheduledTask/tasksWithStatus') // bitsflow-intg
+            // axios.get('http://localhost:8082/scheduledTask/tasksWithStatus') // Dynamic-Cron
             .then((response) => {
                 console.log("tasksWithStatus form Backend: ", response);
                 this.tasksWithStatus = [];
@@ -147,8 +150,8 @@ export default {
 
         stopTask(taskStartStop) {
             console.log('task-name: ', taskStartStop);
-            // axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/stop?taskName=' + taskStartStop) // bitsflow-intg
-            axios.post('http://localhost:8082/tasks/stop?taskName=' + taskStartStop) // Dynamic-Cron
+            axios.post('http://' + this.ip + ':8081/BitsFlow-App/tasks/stop?taskName=' + taskStartStop) // bitsflow-intg
+                // axios.post('http://localhost:8082/tasks/stop?taskName=' + taskStartStop) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
@@ -162,8 +165,8 @@ export default {
 
         startAtInit(taskStartStop) {
             console.log('task-name: ', taskStartStop);
-            // axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/start?taskName=' + taskStartStop) // bitsflow-intg
-            axios.post('http://localhost:8082/tasks/start?taskName=' + taskStartStop) // Dynamic-Cron
+            axios.post('http://' + this.ip + ':8081/BitsFlow-App/tasks/start?taskName=' + taskStartStop) // bitsflow-intg
+                // axios.post('http://localhost:8082/tasks/start?taskName=' + taskStartStop) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.logs = response.data
@@ -177,8 +180,8 @@ export default {
 
         fetchTaskNames() {
             console.log('Task type selected:', this.taskType);
-            // axios.get('http://'+this.ip+':8081/BitsFlow-App/scheduledTask/findTaskName/' + this.taskType) // bitsflow-intg
-            axios.get('http://localhost:8082/scheduledTask/findTaskName/' + this.taskType) // Dynamic-Cron
+            axios.get('http://' + this.ip + ':8081/BitsFlow-App/scheduledTask/findTaskName/' + this.taskType) // bitsflow-intg
+                // axios.get('http://localhost:8082/scheduledTask/findTaskName/' + this.taskType) // Dynamic-Cron
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                     this.taskNames = response.data
@@ -192,7 +195,31 @@ export default {
                     // Handle the error
                     console.log("Error Occured!", error);
                 })
-        }
+        },
+
+        makeApiCall() {
+
+            let requestData = {
+                "category": "individual-pii-data",
+                "type": "pan-detail-v2",
+                "applicationId": "Dashboard-realtime-KYC",
+                "data": {
+                    "panNumber": "skhuw",
+                },
+                "mode": "TEST",
+            };
+
+            axios.post('http://192.168.1.4:8081/BitsFlow-App/rest/pan/verification', requestData) // camel
+                // axios.post('http://192.168.1.16:8081/BitsFlow-App/panAadhar/verification', requestData) // rest-tem and camel
+                // axios.post('http://localhost:8081/BitsFlow-App/panVerification', requestData) // normal
+                .then((response) => {
+                    console.log("Response form Backend: ", response);
+                })
+                .catch((error) => {
+                    // Handle the error
+                    console.log("Error Occured!", error);
+                })
+        },
     }
 }
 </script>
