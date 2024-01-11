@@ -4,12 +4,13 @@
             <div class="modal-dialog" role="document">
                 <div class="customSpinner">
                     <div class="modal-header">
-                        <h6 class="modal-title">Loading</h6>
+                        <i id="spinner" class="fas fa-spinner fa-spin"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -19,18 +20,19 @@ export default {
 </script>
 
 <style scoped>
-.customSpinner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-    margin-left: 43%;
-    color: var(--bs-modal-color);
-    pointer-events: auto;
-    background-color: var(--bs-modal-bg);
-    background-clip: padding-box;
-    border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
-    border-radius: var(--bs-modal-border-radius);
-    outline: 0;
+
+#spinner {
+  font-size: 2.2em;
 }
+
+.customSpinner {
+  display: flex;
+  position: fixed;
+  top: 18%;
+  left: 54.5%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0);
+}
+
 </style>
