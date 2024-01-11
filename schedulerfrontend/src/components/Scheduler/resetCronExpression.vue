@@ -1,119 +1,126 @@
 <template>
+  <sideBar></sideBar>
   <div class="master container-fluid">
-    <div class="heading row">
-      <h3>Reset Cron</h3>
-    </div>
-
-    <div class="selectdiv">
-
-      <div class="type" style="margin-bottom: 30px; margin-top: 25px;">
-        <h5 class="main">Select</h5>
-
-        <input type="radio" id="one" value="One" name="cron" v-model="picked" />
-        <label for="one">Create Cron Expression</label><br>
-
-        <input type="radio" id="two" value="Two" name="cron" v-model="picked" />
-        <label for="two">Write Cron Expression</label>
+    <div class="allData">
+      <div class="heading row">
+        <h3>Reset Cron</h3>
       </div>
 
-      <!-- SelectCron -->
-      <div id="selectCron" style="display: grid;">
-        <div>
-          <strong>Cron:</strong>
-          <input type="text" id="cron" v-model="cronExpression" disabled>
+      <div class="selectdiv">
+
+        <div class="type" style="margin-bottom: 30px; margin-top: 25px;">
+          <h5 class="main">Select</h5>
+
+          <input type="radio" id="one" value="One" name="cron" v-model="picked" />
+          <label for="one">Create Cron Expression</label><br>
+
+          <input type="radio" id="two" value="Two" name="cron" v-model="picked" />
+          <label for="two">Write Cron Expression</label>
         </div>
 
-        <div
-          style="padding-top: 20px; padding-bottom: 25px; display: grid; grid-template-columns: auto auto auto auto auto auto;">
+        <!-- SelectCron -->
+        <div id="selectCron" style="display: grid;">
           <div>
-            <strong>Second:</strong>
-            <select v-model="sType">
-              <option v-for="sType in sTypes" :key="sType" :value="sType">{{ sType }}</option>
-            </select>
-
-            <select v-model="second">
-              <option v-for="second in seconds" :key="second" :value="second">{{ second }}</option>
-            </select>
+            <strong>Cron:</strong>
+            <input type="text" id="cron" v-model="cronExpression" disabled>
           </div>
 
-          <div>
-            <strong>Minute:</strong>
-            <select v-model="mType">
-              <option v-for="mType in mTypes" :key="mType" :value="mType">{{ mType }}</option>
-            </select>
+          <div
+            style="padding-top: 20px; padding-bottom: 25px; display: grid; grid-template-columns: auto auto auto auto auto auto;">
+            <div>
+              <strong>Second:</strong>
+              <select v-model="sType">
+                <option v-for="sType in sTypes" :key="sType" :value="sType">{{ sType }}</option>
+              </select>
 
-            <select v-model="minute">
-              <option v-for="minute in minutes" :key="minute" :value="minute">{{ minute }}</option>
-            </select>
+              <select v-model="second">
+                <option v-for="second in seconds" :key="second" :value="second">{{ second }}</option>
+              </select>
+            </div>
+
+            <div>
+              <strong>Minute:</strong>
+              <select v-model="mType">
+                <option v-for="mType in mTypes" :key="mType" :value="mType">{{ mType }}</option>
+              </select>
+
+              <select v-model="minute">
+                <option v-for="minute in minutes" :key="minute" :value="minute">{{ minute }}</option>
+              </select>
+            </div>
+
+            <div>
+              <strong>Hour:</strong>
+              <select v-model="hType">
+                <option v-for="hType in hTypes" :key="hType" :value="hType">{{ hType }}</option>
+              </select>
+
+              <select v-model="hour">
+                <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+              </select>
+            </div>
+
+            <div>
+              <strong>Date:</strong>
+              <select v-model="date" style="width: 100px;">
+                <option v-for="date in dates" :key="date" :value="date">{{ date }}</option>
+              </select>
+            </div>
+
+            <div>
+              <strong>Month:</strong>
+              <select v-model="month" style="width: 100px;">
+                <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
+              </select>
+            </div>
+
+            <div>
+              <strong>Day:</strong>
+              <select v-model="day" style="width: 100px;">
+                <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
+              </select>
+            </div>
+
           </div>
 
-          <div>
-            <strong>Hour:</strong>
-            <select v-model="hType">
-              <option v-for="hType in hTypes" :key="hType" :value="hType">{{ hType }}</option>
-            </select>
-
-            <select v-model="hour">
-              <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
-            </select>
-          </div>
-
-          <div>
-            <strong>Date:</strong>
-            <select v-model="date" style="width: 100px;">
-              <option v-for="date in dates" :key="date" :value="date">{{ date }}</option>
-            </select>
-          </div>
-
-          <div>
-            <strong>Month:</strong>
-            <select v-model="month" style="width: 100px;">
-              <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
-            </select>
-          </div>
-
-          <div>
-            <strong>Day:</strong>
-            <select v-model="day" style="width: 100px;">
-              <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
-            </select>
+          <div style="margin-right: 20px;">
+            <button disabled ref="setCronBtn" class="buttons" v-on:click="setCreatedCronExp()">Reset
+            </button>
           </div>
 
         </div>
 
-        <div style="margin-right: 20px;">
-          <button disabled ref="setCronBtn" class="buttons" v-on:click="setCreatedCronExp()">Start
-          </button>
-        </div>
+        <!-- WriteCron -->
+        <div style="padding-top: 50px; padding-bottom: 25px;" id="writeCron">
+          <strong>Write Your cron Expression</strong>&nbsp;
+          <input type="text" v-model="writeExpression">&nbsp;
+          <button disabled ref="writeCronBtn" class="buttons" v-on:click="setWrittenCronExp()">Reset</button>&nbsp;&nbsp;
 
-      </div>
-
-      <!-- WriteCron -->
-      <div style="padding-top: 50px; padding-bottom: 25px;" id="writeCron">
-        <strong>Write Your cron Expression</strong>&nbsp;
-        <input type="text" v-model="writeExpression">&nbsp;
-        <button disabled ref="writeCronBtn" class="buttons" v-on:click="setWrittenCronExp()">Start</button>&nbsp;&nbsp;
-
-        <!-- <strong>Enter Delay in MilliSecond</strong>&nbsp;
+          <!-- <strong>Enter Delay in MilliSecond</strong>&nbsp;
         <input type="number" v-model="delay">&nbsp;
         <button ref="cron-btn" class="buttons" v-on:click="setDelay()">Set Delay</button> -->
+        </div>
+
       </div>
 
-    </div>
+      <div class="footerDiv mt-1">
+        <button @click="$router.back()" class="buttons" style="margin-left: 91.5%; margin-top: 50px;">Back</button>
+      </div>
 
-    <div class="footerDiv mt-1">
-      <button @click="$router.back()" class="buttons" style="margin-left: 91.5%; margin-top: 50px;">Back</button>
     </div>
 
   </div>
 </template>
 
 <script>
-
-import axios from 'axios';
+import { get, post } from '../../callAPI'
+import sideBar from '../sideBar.vue';
 
 export default {
-  name: "HelloWorld",
+  name: "resetCronExpression",
+  components: {
+    sideBar
+  },
   data() {
     return {
       sTypes: ['every', 'specific'],
@@ -157,8 +164,6 @@ export default {
       cDay: '*',
 
       picked: '',
-
-      ip: 'localhost'
     }
   },
 
@@ -360,8 +365,7 @@ export default {
       const taskName = localStorage.getItem('taskName');
       console.log('Task Name: ', taskName);
 
-      axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // bitsflow-intg
-      // axios.post('http://localhost:8082/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
+      post('/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.cronExpression)
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -376,8 +380,7 @@ export default {
       const taskName = localStorage.getItem('taskName');
       console.log('Task Name: ', taskName);
 
-      axios.post('http://'+this.ip+':8081/BitsFlow-App/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.writeExpression) // bitsflow-intg
-      // axios.post('http://localhost:8082/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.cronExpression) // Dynamic-Cron
+      post('/tasks/resetCronExpression?taskName=' + taskName + '&cronExpression=' + this.writeExpression)
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -389,8 +392,7 @@ export default {
 
     setDelay() {
       console.log(typeof this.delay, this.delay);
-      // axios.get('http://'+this.ip+':8081/BitsFlow-App/dynamicSchedule/delayVal?delay=' + this.delay) // bitsflow-intg
-      axios.get('http://localhost:8081/dynamicSchedule/delayVal?delay=' + this.delay) // Dynamic-Cron
+      get('/dynamicSchedule/delayVal?delay=' + this.delay)
         .then((response) => {
           console.log("Response form Backend: ", response);
         })
@@ -405,9 +407,18 @@ export default {
 
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
+.master {
+    margin-left: 10%;
+}
+
+@media (max-width: 767px) {
+    .master {
+        margin-left: 1%;
+    }
+}
+
+.allData{
+    width: 89.8%;
 }
 
 .main {
@@ -419,7 +430,7 @@ export default {
   margin-top: 0px;
   padding-top: 0px;
   background: lightblue;
-  height: 660px;
+  height: 450px;
 }
 
 .selectdiv {
@@ -428,7 +439,7 @@ export default {
 
 .heading {
   height: 45px;
-  background: lightcoral;
+  background: rgb(247, 149, 238);
   padding-top: 9px;
 }
 
@@ -444,14 +455,8 @@ export default {
   background: white;
 }
 
-select,
-input {
+select, input {
   padding: 2px 10px;
 }
 
-@media (max-width: 767px) {
-  .masterDiv {
-    margin-left: 1%;
-  }
-}
 </style>
