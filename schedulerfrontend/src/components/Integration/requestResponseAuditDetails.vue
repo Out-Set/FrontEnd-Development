@@ -83,12 +83,37 @@
             </div>
 
             <div class="footerDiv mt-1">
-                
+
+                <select v-model="itemsPerPage" class="form-select form-select-sm" style="width: 7%;">
+                    <option v-for="items in chooseItemsPerPage" :key="items" :value="items">{{ items }}</option>
+                </select>
+
                 <ul class="pagination pagination-sm justify-content-center mx-auto">
                     <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
                         <a class="page-link" @click="changePage(currentPage - 1)" aria-label="Previous">
                             <span aria-hidden="true">Previous</span>
                         </a>
+                    </li>
+
+                    <li v-if="currentPage > 2">
+                        <a class="page-link" @click="changePage(1)">1</a>
+                    </li>
+
+                    <li v-if="currentPage > 3">
+                        <span class="ellipsis">...</span>
+                    </li>
+
+                    <li v-for="pageNumber in getPageRange()" :key="pageNumber" class="page-item"
+                        :class="{ 'active': currentPage === pageNumber }">
+                        <a class="page-link" @click="changePage(pageNumber)">{{ pageNumber }}</a>
+                    </li>
+
+                    <li v-if="currentPage < totalPages - 2">
+                        <span class="ellipsis">...</span>
+                    </li>
+
+                    <li v-if="currentPage < totalPages - 1">
+                        <a class="page-link" @click="changePage(totalPages)">{{ totalPages }}</a>
                     </li>
 
                     <li class="page-item" :class="{ 'disabled': currentPage === totalPages }">
@@ -130,6 +155,7 @@ export default {
             loader: true,
             copied: false,
 
+            chooseItemsPerPage: [10, 20, 30, 40, 50],
             itemsPerPage: 10,
             currentPage: 1,
         }
@@ -240,6 +266,28 @@ export default {
             if (page >= 1 && page <= this.totalPages) {
                 this.currentPage = page;
             }
+        },
+
+        getPageRange() {
+            const range = [];
+            const totalPages = this.totalPages;
+            const currentPage = this.currentPage;
+
+            if (totalPages <= 3) {
+                for (let i = 1; i <= totalPages; i++) {
+                    range.push(i);
+                }
+            } else {
+                if (currentPage <= 2) {
+                    range.push(1, 2, 3);
+                } else if (currentPage >= totalPages - 1) {
+                    range.push(totalPages - 2, totalPages - 1, totalPages);
+                } else {
+                    range.push(currentPage - 1, currentPage, currentPage + 1);
+                }
+            }
+
+            return range.filter(page => page > 0 && page <= totalPages);
         },
     },
 

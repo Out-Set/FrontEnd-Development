@@ -51,7 +51,7 @@ export default {
                 "mode": "TEST",
             };
 
-            post("/rest/pan/verification", requestData, { headers: this.headers })
+            post("/rest/pan/verification", requestData, this.headers)
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                 })
@@ -72,7 +72,7 @@ export default {
                 "mode": "PROD"
             };
 
-            post("/rest/sendOtp", sendOtp, { headers: this.headers })
+            post("/rest/sendOtp", sendOtp, this.headers)
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                 })
@@ -95,7 +95,7 @@ export default {
                 "mode": "PROD"
             }
 
-            post("/rest/get/aadhaar", getAadhaar, { headers: this.headers })
+            post("/rest/get/aadhaar", getAadhaar, this.headers)
                 .then((response) => {
                     console.log("Response form Backend: ", response);
                 })
