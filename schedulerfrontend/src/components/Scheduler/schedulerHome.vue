@@ -1,5 +1,4 @@
 <template>
-    <sideBar></sideBar>
 
     <div class="master container-fluid">
         <div class="allData">
@@ -92,12 +91,10 @@
 
 <script>
 import { get, post } from '../../callAPI'
-import sideBar from '../sideBar.vue'
 
 export default {
     name: "schedulerHome",
     components: {
-        sideBar
     },
     data() {
         return {
@@ -207,9 +204,6 @@ export default {
 </script>
 
 <style scoped>
-.master {
-    margin-left: 10%;
-}
 
 @media (max-width: 767px) {
     .master {
@@ -218,7 +212,8 @@ export default {
 }
 
 .allData{
-    width: 90.8%;
+    text-align: center;
+    justify-content: center;
 }
 
 .heading {
@@ -226,11 +221,12 @@ export default {
     background: rgb(247, 149, 238);
     padding-top: 9px;
     padding-left: 16px;
+    display: flex;
+    justify-content: center;
 }
 
 .main {
     text-decoration: underline;
-    /* margin-bottom: 5px; */
 }
 
 .setAndViewLogs {
@@ -240,7 +236,6 @@ export default {
 }
 
 select {
-    /* padding: 5px 10px 0px 10px; */
     padding-top: 6px;
     padding-left: 7px;
 }
@@ -276,6 +271,18 @@ tbody tr td {
 thead {
     position: sticky;
     top: 0;
+}
+
+@media (max-width: 1200px) {
+    .row {
+        margin-left: 0px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .row>h3{
+        display: contents;
+    }
 }
 </style>
 

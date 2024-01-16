@@ -1,5 +1,4 @@
 <template>
-    <sideBar></sideBar>
 
     <spinner v-if="loader"></spinner>
 
@@ -47,13 +46,11 @@
 import moment from 'moment';
 import { get } from '../../callAPI'
 import spinner from '../spinner.vue'
-import sideBar from '../sideBar.vue'
 
 export default {
     name: "serviceIdentifiers",
     components: {
         spinner,
-        sideBar
     },
     data() {
         return {
@@ -98,9 +95,6 @@ export default {
     height: 510px;
     overflow: scroll;
 }
-.master {
-    margin-left: 10%;
-}
 
 @media (max-width: 767px) {
     .master {
@@ -108,7 +102,8 @@ export default {
     }
 }
 .allData{
-    width: 89.9%;
+    text-align: center;
+    justify-content: center;
 }
 
 thead tr th {
@@ -137,6 +132,18 @@ thead {
     display: flex;
     justify-content: flex-end;
     background-color: #c9c9c9;
+}
+
+@media (max-width: 1200px) {
+    .row{
+        width: 100%;
+        margin-left: 0px;
+        display: flex;
+        justify-content: center;
+    }
+    .row>h3{
+        display: contents;
+    }
 }
 
 

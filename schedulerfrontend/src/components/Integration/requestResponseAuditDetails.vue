@@ -1,5 +1,4 @@
 <template>
-    <sideBar></sideBar>
 
     <spinner v-if="loader"></spinner>
 
@@ -15,7 +14,7 @@
                     <!-- <label for="dateInput">Select a date:</label> -->
                     <input type="date" id="dateInput" name="dateInput" v-model="date">
                 </div>
-
+                <div class="table-container"> 
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -29,7 +28,7 @@
                             <th scope="col">TRANSACTION ID</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="height: 40vh; overflow: hidden;">
                         <tr v-for="(data, index) in (paginatedItems)" :key="index">
                             <td>{{ data[0] }}</td>
                             <td>
@@ -58,6 +57,7 @@
                     </tbody>
                 </table>
             </div>
+            </div>
 
             <div class="modal" tabindex="-1" role="dialog" v-bind:style="{ 'display': displayStyle }">
                 <div class="modal-dialog" role="document">
@@ -84,11 +84,11 @@
 
             <div class="footerDiv mt-1">
 
-                <select v-model="itemsPerPage" class="form-select form-select-sm" style="width: 7%;">
+                <select v-model="itemsPerPage" class="form-select form-select-sm" style="width: 70px;">
                     <option v-for="items in chooseItemsPerPage" :key="items" :value="items">{{ items }}</option>
                 </select>
 
-                <ul class="pagination pagination-sm justify-content-center mx-auto">
+                <ul class="pagination pagination-sm justify-content-center mx-auto pagination-tabs">
                     <li class="page-item" :class="{ 'disabled': currentPage === 1 }">
                         <a class="page-link" @click="changePage(currentPage - 1)" aria-label="Previous">
                             <span aria-hidden="true">Previous</span>
@@ -133,13 +133,11 @@
 import moment from 'moment';
 import { get } from '../../callAPI'
 import spinner from '../spinner.vue'
-import sideBar from '../sideBar.vue';
 
 export default {
     name: "auditDetails",
     components: {
         spinner,
-        sideBar
     },
     data() {
         return {
@@ -309,7 +307,7 @@ export default {
   
 <style scoped>
 .master {
-    margin-left: 10%;
+    width: 100%;
 }
 
 @media (max-width: 767px) {
@@ -318,8 +316,9 @@ export default {
     }
 }
 
-.allData {
-    width: 89.9%;
+.allData{
+    text-align: center;
+    justify-content: center;
 }
 
 .filter {
@@ -330,14 +329,19 @@ export default {
 }
 
 .allDataDiv {
-    padding: auto;
+    padding: 0px 10px 0px 10px;
     width: 100%;
     height: 500px;
-    overflow: scroll;
+}
+
+.table-container {
+    overflow-y: auto;
+    width: 100%;
+    height: 465px;
 }
 
 .table {
-    width: 1140px;
+    min-width: 1140px;
 }
 
 thead tr th {
@@ -354,6 +358,10 @@ thead {
     top: 0;
 }
 
+.pagination-tabs>li {
+    cursor: pointer;
+}
+
 .heading {
     height: 45px;
     background: rgb(247, 149, 238);
@@ -366,5 +374,17 @@ thead {
     display: flex;
     justify-content: space-between;
     background-color: #c9c9c9;
+}
+
+@media (max-width: 1200px) {
+    .row {
+        margin-left: 0px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .row>h3{
+        display: contents;
+    }
 }
 </style>
