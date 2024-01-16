@@ -1,5 +1,4 @@
 <template>
-  <sideBar></sideBar>
   <div class="master container-fluid">
     <div class="allData">
       <div class="heading row">
@@ -25,67 +24,86 @@
             <input type="text" id="cron" v-model="cronExpression" disabled>
           </div>
 
-          <div
-            style="padding-top: 20px; padding-bottom: 25px; display: grid; grid-template-columns: auto auto auto auto auto auto;">
-            <div>
-              <strong>Second:</strong>
-              <select v-model="sType">
-                <option v-for="sType in sTypes" :key="sType" :value="sType">{{ sType }}</option>
-              </select>
+          <div class="container mt-4">
+            <div class="row">
+              <div class="col-md-4 col-lg-4 mt-3">
+                <strong>Second:</strong>
+                <div class="d-flex">
+                  <select class="form-select me-2" v-model="sType">
+                    <option v-for="sType in sTypes" :key="sType" :value="sType">{{ sType }}</option>
+                  </select>
 
-              <select v-model="second">
-                <option v-for="second in seconds" :key="second" :value="second">{{ second }}</option>
-              </select>
+                  <select class="form-select" v-model="second">
+                    <option v-for="second in seconds" :key="second" :value="second">{{ second }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-lg-4 mt-3">
+                <strong>Minute:</strong>
+                <div class="d-flex">
+                  <select class="form-select me-2" v-model="mType">
+                    <option v-for="mType in mTypes" :key="mType" :value="mType">{{ mType }}</option>
+                  </select>
+
+                  <select class="form-select" v-model="minute">
+                    <option v-for="minute in minutes" :key="minute" :value="minute">{{ minute }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4 col-lg-4 mt-3">
+                <strong>Hour:</strong>
+                <div class="d-flex">
+                  <select class="form-select me-2" v-model="hType">
+                    <option v-for="hType in hTypes" :key="hType" :value="hType">{{ hType }}</option>
+                  </select>
+
+                  <select class="form-select" v-model="hour">
+                    <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4 mt-3">
+                <div class="form-group">
+                  <label for="date"><strong>Date:</strong></label>
+                  <div class="d-flex">
+                    <select class="form-select" v-model="date">
+                      <option v-for="date in dates" :key="date" :value="date">{{ date }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 mt-3">
+                <div class="form-group">
+                  <label for="month"><strong>Month:</strong></label>
+                  <div class="d-flex">
+                    <select class="form-select" v-model="month">
+                      <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-4 mt-3">
+                <div class="form-group">
+                  <label for="day"><strong>Day:</strong></label>
+                  <div class="d-flex">
+                    <select class="form-select" v-model="day">
+                      <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
             </div>
-
-            <div>
-              <strong>Minute:</strong>
-              <select v-model="mType">
-                <option v-for="mType in mTypes" :key="mType" :value="mType">{{ mType }}</option>
-              </select>
-
-              <select v-model="minute">
-                <option v-for="minute in minutes" :key="minute" :value="minute">{{ minute }}</option>
-              </select>
-            </div>
-
-            <div>
-              <strong>Hour:</strong>
-              <select v-model="hType">
-                <option v-for="hType in hTypes" :key="hType" :value="hType">{{ hType }}</option>
-              </select>
-
-              <select v-model="hour">
-                <option v-for="hour in hours" :key="hour" :value="hour">{{ hour }}</option>
-              </select>
-            </div>
-
-            <div>
-              <strong>Date:</strong>
-              <select v-model="date" style="width: 100px;">
-                <option v-for="date in dates" :key="date" :value="date">{{ date }}</option>
-              </select>
-            </div>
-
-            <div>
-              <strong>Month:</strong>
-              <select v-model="month" style="width: 100px;">
-                <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
-              </select>
-            </div>
-
-            <div>
-              <strong>Day:</strong>
-              <select v-model="day" style="width: 100px;">
-                <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
-              </select>
-            </div>
-
           </div>
 
-          <div style="margin-right: 20px;">
-            <button disabled ref="setCronBtn" class="buttons" v-on:click="setCreatedCronExp()">Reset
-            </button>
+          <div style="margin-right: 20px; margin-top: 20px;">
+            <button disabled ref="setCronBtn" class="buttons" v-on:click="setCreatedCronExp()">Reset</button>
+            <!-- <button class="buttons" @click="$router.back()" style="margin-left: 20px;">Back</button> -->
           </div>
 
         </div>
@@ -94,17 +112,14 @@
         <div style="padding-top: 50px; padding-bottom: 25px;" id="writeCron">
           <strong>Write Your cron Expression</strong>&nbsp;
           <input type="text" v-model="writeExpression">&nbsp;
-          <button disabled ref="writeCronBtn" class="buttons" v-on:click="setWrittenCronExp()">Reset</button>&nbsp;&nbsp;
-
-          <!-- <strong>Enter Delay in MilliSecond</strong>&nbsp;
-        <input type="number" v-model="delay">&nbsp;
-        <button ref="cron-btn" class="buttons" v-on:click="setDelay()">Set Delay</button> -->
+          <button disabled ref="writeCronBtn" class="buttons" v-on:click="setWrittenCronExp()">Reset</button>
+          <!-- <button class="buttons" @click="$router.back()" style="margin-left: 20px;">Back</button> -->
         </div>
 
       </div>
 
       <div class="footerDiv mt-1">
-        <button @click="$router.back()" class="buttons" style="margin-left: 91.5%; margin-top: 50px;">Back</button>
+        <button @click="$router.back()" class="btn btn-secondary btn-sm">Back</button>
       </div>
 
     </div>
@@ -114,12 +129,10 @@
 
 <script>
 import { get, post } from '../../callAPI'
-import sideBar from '../sideBar.vue';
 
 export default {
   name: "resetCronExpression",
   components: {
-    sideBar
   },
   data() {
     return {
@@ -407,18 +420,15 @@ export default {
 
 
 <style scoped>
-.master {
-    margin-left: 10%;
-}
-
 @media (max-width: 767px) {
-    .master {
-        margin-left: 1%;
-    }
+  .master {
+    margin-left: 1%;
+  }
 }
 
-.allData{
-    width: 89.8%;
+.allData {
+  text-align: center;
+  justify-content: center;
 }
 
 .main {
@@ -429,8 +439,6 @@ export default {
 .master {
   margin-top: 0px;
   padding-top: 0px;
-  background: lightblue;
-  height: 450px;
 }
 
 .selectdiv {
@@ -455,8 +463,29 @@ export default {
   background: white;
 }
 
-select, input {
+select,
+input {
   padding: 2px 10px;
 }
 
+.footerDiv {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #c9c9c9;
+}
+
+@media (max-width: 1200px) {
+  .row {
+    margin-left: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .row>h3 {
+    display: contents;
+  }
+}
 </style>

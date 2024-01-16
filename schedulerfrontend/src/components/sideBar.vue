@@ -5,24 +5,22 @@
         </div>
         <br>
 
-        <ul class="nav nav-pills flex-column mb-auto">
+        <ul class="nav nav-pills flex-column mb-auto nav-items-container">
             <li>
                 <router-link to="/schedulerHome"> <button class="text-start customButton"
-                        :class="{ active: this.$route.path.startsWith('/schedulerHome'), customButton: true }"> &nbsp;
+                        :class="{ active: this.$route.path.startsWith('/schedulerHome'), customButton: true }">
                         Scheduler</button>
                 </router-link>
             </li>
 
             <li>
                 <router-link to="/serviceIdentifiers"><button class="text-start customButton"
-                        :class="{ active: this.$route.path.startsWith('/serviceIdentifiers'), customButton: true }">&nbsp;
+                        :class="{ active: this.$route.path.startsWith('/serviceIdentifiers'), customButton: true }">
                         Audit Log</button></router-link>
             </li>
-
-
         </ul>
     </div>
-    <!-- Page content -->
+
     <div class="main">
         <nav class="navbar">
             <div class="container-fluid">
@@ -45,51 +43,50 @@ export default {
 </script>
 
 <style scoped>
-.logoDiv{
+.logoDiv {
     margin-top: 4px;
     color: brown;
 }
+
 .navbar {
     background-color: #5ee9e9;
 }
 
 .container-fluid {
     background-color: #5ee9e9;
+    justify-content: center !important;
 }
 
 .integration-Home {
     font-size: 30px;
     text-decoration: none;
     color: #fffafa;
-    margin-left: 35%;
     cursor: default;
 }
 
 .sidebar {
     height: 100%;
-    width: 11%;
+    width: 12%;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     background-color: white;
     overflow-x: hidden;
-    box-shadow: 2px 2px 3px #818181;
+    box-shadow: 1px 1px 1px #818181;
+    padding: 0px 5px 0px 5px;
 }
 
-/* Style links inside the sidebar */
 .customButton {
-    padding: 10px 12px 10px 20px;
-    font-size: 18px;
+    /* padding: ; */
+    font-size: 1.2rem;
     color: black;
     display: block;
     border: none;
     background: none;
     width: 100%;
-    margin-left: 12px;
 }
 
-/* Change color on hover */
 .sidebar button:hover {
     background-color: #afaedd;
     color: white;
@@ -97,18 +94,16 @@ export default {
 }
 
 .main {
-    margin-left: 11%;
+    margin-left: 12%;
     padding: 0px 10px;
     background-color: #5ee9e9;
+    box-shadow: 1px 1px 1px #81818130;
+    width: 88%;
 }
 
 .active {
     background-color: #5e5bec;
     color: white;
-}
-
-ul li {
-    margin-left: 5px;
 }
 
 a {
@@ -121,22 +116,20 @@ a {
     text-decoration: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
     .customButton {
-        padding: 1px 1px 1px 1px;
+        padding: 6px;
         font-size: 15px;
         color: black;
         border: none;
         background: none;
         width: 80%;
-        /* margin-right: 10px; */
         margin-left: 0px;
 
     }
 
     .sidebar {
         height: 60px;
-        /* width: 194px; */
         position: relative;
         z-index: 0;
         top: 0;
@@ -151,20 +144,38 @@ a {
     .main {
         position: relative;
         top: 1px;
-        margin-left: 1%;
-        /* Same as the width of the sidebar */
-        padding: 0px 10px;
-        background-color: #017e7e;
+        margin-left: 0%;
+        margin: 0px 0.75rem 0px 0.75rem;
+        width: 97.8%;
     }
 
     .flex-column {
         flex-direction: row !important;
-        width: 30%;
+        width: 70%;
     }
 
     .active {
         background-color: #5e5bec;
         color: white;
     }
-}
-</style>
+
+    .nav-items-container {
+        padding: 10px;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100%;
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
+    .nav-items-container>li {
+        min-width: 4rem;
+        width: 6rem;
+        height: 100%;
+    }
+
+    .nav-items-container>li>a {
+        width: 8rem;
+        height: 100%;
+    }
+}</style>

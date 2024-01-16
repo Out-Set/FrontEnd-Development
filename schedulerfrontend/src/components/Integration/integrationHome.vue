@@ -114,64 +114,13 @@ export default {
     padding: 0;
 }
 
-.master {
-    margin-top: 0px;
-    padding-top: 0px;
-    background: lightblue;
-    height: 170px;
-}
-
-.heading {
-    height: 45px;
-    background: rgb(247, 149, 238);
-    padding-top: 9px;
-    padding-left: 16px;
-}
-
-.footerDiv {
-    width: 100%;
-    height: 35px;
-    display: flex;
-    justify-content: flex-end;
-    background-color: #c9c9c9;
-}
-
-.setAndViewLogs {
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    margin-top: 50px;
-}
-
-select {
-    /* padding: 5px 10px 0px 10px; */
-    padding-top: 6px;
-    padding-left: 7px;
-}
-
-button {
-    border: none;
-    border-radius: 3px;
-    margin-bottom: 10px;
-    padding: 4px 20px;
-}
-
-button:hover {
-    background: #1397AA;
-    color: white;
-}
-
-thead tr th {
-    background-color: lightskyblue;
-    font-size: 14px;
-}
-
-tbody tr td {
-    font-size: 12px;
-}
-
-thead {
-    position: sticky;
-    top: 0;
+@media (max-width: 1200px) {
+    .row {
+        width: 100%;
+        margin-left: 16px;
+        display: flex;
+        justify-content: center;
+    }
 }
 </style>
 
